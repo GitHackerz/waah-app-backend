@@ -15,6 +15,12 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cors());
 
+//import routes
+const userRoutes = require('./routes/user');
+
+//use routes
+app.use('/user', userRoutes);
+
 app.get('/', (req, res) => {
     res.send('Hello World!');
     console.log(req.body);
