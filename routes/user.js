@@ -1,7 +1,7 @@
-const {Router} = require('express');
-const {checkUserBody} = require('../middlewares/validator');
-const {AddUser, UpdateUser, DeleteUser, GetUsers, GetUserById, Login} = require('../controllers/user');
-const {auth} = require('../middlewares/auth');
+const { Router } = require('express');
+const { checkUserBody } = require('../middlewares/validator');
+const { AddUser, UpdateUser, DeleteUser, GetUsers, GetUserById, Login } = require('../controllers/user');
+const { auth } = require('../middlewares/auth');
 
 const router = Router();
 

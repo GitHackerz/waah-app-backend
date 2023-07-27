@@ -1,6 +1,6 @@
-const {checkSchema, validationResult} = require('express-validator');
+const { checkSchema, validationResult } = require('express-validator');
 
-module.exports.checkUserBody = async (req, res, next) => {
+module.exports.checkUserBody = async(req, res, next) => {
     await checkSchema({
         name: {
             isEmpty: false, errorMessage: 'Name is required'
@@ -8,7 +8,7 @@ module.exports.checkUserBody = async (req, res, next) => {
             isEmpty: false, isEmail: true, errorMessage: 'Email is invalid'
         }, password: {
             isEmpty: false, isLength: {
-                options: {min: 6}
+                options: { min: 6 }
             }, errorMessage: 'Password must be at least 6 characters'
         }, role: {
             isIn: {
@@ -30,13 +30,13 @@ module.exports.checkUserBody = async (req, res, next) => {
     next();
 };
 
-module.exports.checkLoginBody = async (req, res, next) => {
+module.exports.checkLoginBody = async(req, res, next) => {
     await checkSchema({
         email: {
             isEmpty: false, isEmail: true, errorMessage: 'Email is invalid'
         }, password: {
             isEmpty: false, isLength: {
-                options: {min: 6}
+                options: { min: 6 }
             }, errorMessage: 'Password must be at least 6 characters'
         }
     }).run(req);

@@ -1,18 +1,18 @@
 const UserModel = require('../models/user');
 const bcrypt = require('bcrypt');
-const {salt} = require('../config');
+const { salt } = require('../config/index.json');
 const mongoose = require('mongoose');
-const {sign} = require('jsonwebtoken');
+const { sign } = require('jsonwebtoken');
 
 require('dotenv').config();
 
-const {JWT_SECRET} = process.env;
+const { JWT_SECRET } = process.env;
 
-const AddUser = async (req, res) => {
+const AddUser = async(req, res) => {
     try {
         const newUser = new UserModel(req.body);
 
-        const existedUser = await UserModel.findOne({email: newUser.email});
+        const existedUser = await UserModel.findOne({ email: newUser.email });
         if (existedUser) return res.status(400).send('Email is already existed');
 
         newUser.password = await bcrypt.hash(newUser.password, salt);
@@ -24,9 +24,9 @@ const AddUser = async (req, res) => {
     }
 };
 
-const UpdateUser = async (req, res) => {
+const UpdateUser = async(req, res) => {
     try {
-        const {id} = req.params;
+        const { id } = req.params;
         const updatedUser = req.body;
 
         if (!id || !mongoose.Types.ObjectId.isValid(id)) return res.status(400).send('ID Not Valid');
@@ -48,9 +48,9 @@ const UpdateUser = async (req, res) => {
     }
 };
 
-const DeleteUser = async (req, res) => {
+const DeleteUser = async(req, res) => {
     try {
-        const {id} = req.params;
+        const { id } = req.params;
 
         if (!id || !mongoose.Types.ObjectId.isValid(id)) return res.status(400).send('ID Not Valid');
 
@@ -66,7 +66,7 @@ const DeleteUser = async (req, res) => {
     }
 };
 
-const GetUsers = async (req, res) => {
+const GetUsers = async(req, res) => {
     try {
         const users = await UserModel.find();
         res.json(users);
@@ -76,9 +76,9 @@ const GetUsers = async (req, res) => {
     }
 };
 
-const GetUserById = async (req, res) => {
+const GetUserById = async(req, res) => {
     try {
-        const {id} = req.params;
+        const { id } = req.params;
 
         if (!id || !mongoose.Types.ObjectId.isValid(id)) return res.status(400).send('User not found');
 
@@ -91,18 +91,18 @@ const GetUserById = async (req, res) => {
     }
 };
 
-const Login = async (req, res) => {
+const Login = async(req, res) => {
     try {
-        const {email, password} = req.body;
+        const { email, password } = req.body;
 
-        const user = await UserModel.findOne({email});
+        const user = await UserModel.findOne({ email });
         if (!user) return res.status(400).send('Email is incorrect');
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(400).send('Password is incorrect');
 
-        const token = await sign({user}, JWT_SECRET);
-        res.json({token});
+        const token = await sign({ user }, JWT_SECRET);
+        res.json({ token });
     } catch (err) {
         console.log(err);
         res.status(500).send(err.message);

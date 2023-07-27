@@ -3,16 +3,16 @@ const express = require('express');
 const cors = require('cors');
 
 //import utils
-const {connectToDB} = require('./utils/db');
+const { connectToDB } = require('./utils/db');
 require('dotenv').config();
 
 // eslint-disable-next-line no-undef
-const {PORT} = process.env;
+const { PORT } = process.env;
 const app = express();
 
 //middleware
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 //import routes
@@ -26,8 +26,7 @@ app.get('/', (req, res) => {
     console.log(req.body);
 });
 
-app.listen(PORT, async () => {
+app.listen(PORT, async() => {
     await connectToDB();
     console.log(`WAAH app listening at http://localhost:${PORT}`);
 });
-
