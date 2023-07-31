@@ -1,4 +1,6 @@
 const { Schema, model } = require('mongoose');
+const { hash } = require('bcrypt');
+require('dotenv').config();
 
 const userSchema = new Schema({
     name: {
@@ -32,6 +34,16 @@ const userSchema = new Schema({
         type: Boolean,
         default: false
     }
+});
+
+userSchema.pre('save', async function(next) {
+    const user = this;
+    const SALT = Number(process.env.SALT);
+    if (!user.isModified('password'))
+        return next();
+
+    user.password = await hash(user.password, SALT);
+    next();
 });
 
 module.exports = model('User', userSchema);

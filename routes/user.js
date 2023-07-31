@@ -1,15 +1,18 @@
 const { Router } = require('express');
 const { checkUserBody } = require('../middlewares/validator');
-const { AddUser, UpdateUser, DeleteUser, GetUsers, GetUserById, Login } = require('../controllers/user');
-const { auth } = require('../middlewares/auth');
+const { AddUser, UpdateUser, DeleteUser, GetUsers, GetUser, Login, BanUser } = require('../controllers/user');
+const { auth, isSuperAdmin } = require('../middlewares/auth');
 
 const router = Router();
 
-router.post('/', auth, checkUserBody, AddUser);
-router.put('/:id', auth, UpdateUser);
-router.delete('/:id', auth, DeleteUser);
-router.get('/', auth, GetUsers);
-router.get('/:id', auth, GetUserById);
+router.route('/')
+    .get(GetUsers)
+    .post(checkUserBody, AddUser);
+router.route('/:id')
+    .get(GetUser)
+    .put(auth, UpdateUser)
+    .delete(auth, DeleteUser);
 router.post('/login', Login);
+router.put('/ban/:id', auth, isSuperAdmin, BanUser);
 
 module.exports = router;
