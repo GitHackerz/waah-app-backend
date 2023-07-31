@@ -9,8 +9,7 @@ const connectToDB = async() => {
         mongoose.set('strictQuery', false);
         await mongoose.connect(MONGO_URI);
         console.log('MongoDB connected');
-    }
-    catch (err) {
+    } catch (err) {
         console.log(err);
     }
 };

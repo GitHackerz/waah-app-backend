@@ -17,12 +17,16 @@ app.use(cors());
 
 //import routes
 const userRoutes = require('./routes/user');
+const postRoutes = require('./routes/post');
+const reportRoutes = require('./routes/report');
 
 //use routes
 app.use('/user', userRoutes);
+app.use('/post', postRoutes);
+app.use('/report', reportRoutes);
 
 app.get('/', (req, res) => {
-    res.send('Hello World!');
+    res.send('Welcome to WAAH APP!');
     console.log(req.body);
 });
 
