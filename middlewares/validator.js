@@ -3,17 +3,27 @@ const { checkSchema, validationResult } = require('express-validator');
 module.exports.checkUserBody = async(req, res, next) => {
     await checkSchema({
         name: {
-            isEmpty: false, errorMessage: 'Name is required'
-        }, email: {
-            isEmpty: false, isEmail: true, errorMessage: 'Email is invalid'
-        }, password: {
-            isEmpty: false, isLength: {
+            isEmpty: false,
+            errorMessage: 'Name is required'
+        },
+        email: {
+            isEmpty: false,
+            isEmail: true,
+            errorMessage: 'Email is invalid'
+        },
+        password: {
+            isEmpty: false,
+            isLength: {
                 options: { min: 6 }
-            }, errorMessage: 'Password must be at least 6 characters'
-        }, role: {
+            },
+            errorMessage: 'Password must be at least 6 characters'
+        },
+        role: {
             isIn: {
                 options: [['user', 'admin', 'superadmin']]
-            }, optional: true, errorMessage: 'Role must be either user or admin'
+            },
+            optional: true,
+            errorMessage: 'Role must be either user or admin'
         }
     }).run(req);
 
@@ -21,7 +31,8 @@ module.exports.checkUserBody = async(req, res, next) => {
     if (!errors.isEmpty()) {
         const msgErrors = errors.array().map((error) => {
             return {
-                msg: error.msg, field: error.path
+                msg: error.msg,
+                field: error.path
             };
         });
         return res.status(400).json(msgErrors);
@@ -33,11 +44,16 @@ module.exports.checkUserBody = async(req, res, next) => {
 module.exports.checkLoginBody = async(req, res, next) => {
     await checkSchema({
         email: {
-            isEmpty: false, isEmail: true, errorMessage: 'Email is invalid'
-        }, password: {
-            isEmpty: false, isLength: {
+            isEmpty: false,
+            isEmail: true,
+            errorMessage: 'Email is invalid'
+        },
+        password: {
+            isEmpty: false,
+            isLength: {
                 options: { min: 6 }
-            }, errorMessage: 'Password must be at least 6 characters'
+            },
+            errorMessage: 'Password must be at least 6 characters'
         }
     }).run(req);
 
@@ -45,7 +61,8 @@ module.exports.checkLoginBody = async(req, res, next) => {
     if (!errors.isEmpty()) {
         const msgErrors = errors.array().map((error) => {
             return {
-                msg: error.msg, field: error.path
+                msg: error.msg,
+                field: error.path
             };
         });
         return res.status(400).json(msgErrors);

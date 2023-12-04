@@ -12,6 +12,7 @@ router.route('/:id')
     .get(GetUser)
     .put(auth, UpdateUser)
     .delete(auth, DeleteUser);
+
 router.post('/login', Login);
 router.put('/ban/:id', auth, isSuperAdmin, BanUser);
 
